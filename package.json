@@ -45,6 +45,7 @@
     "typescript-eslint": "^8.31.0"
   },
   "dependencies": {
-    "dkim-verifier": "^0.0.7"
+    "@zk-email/circuits": "^6.3.3-nightly-20250214",
+    "dkim-verifier": "^0.0.8"
   }
 }
