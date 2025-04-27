@@ -14,3 +14,6 @@ export const bigintToCircomInputs = (n: bigint): CircuitInputBigInt => {
     return remainder & BIGINT_121_MAX;
   }) as CircuitInputBigInt;
 };
+
+export const SHA_PADDED_MESSAGE_LENGTH = 640;
+export type CircuitInputPaddedMessage = FixedLengthArray<number, 640>;

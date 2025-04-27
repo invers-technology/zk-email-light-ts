@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { rsaCircuitInputs } from "../src";
+import { rsaCircuitInputs, shaCircuitInputs } from "../src";
 const wasm = require("circom_tester").wasm;
 
 describe("Circuit", () => {
@@ -22,5 +22,14 @@ describe("Circuit", () => {
 
     await circuit.checkConstraints(witness);
     await circuit.assertOut(witness, {});
-  }, 30000);
+  }, 100000);
+
+  it("should verify sha256 with sha circuit", async () => {
+    const inputs = shaCircuitInputs(emailRaw);
+    const circuit = await getCircuit("sha");
+    const witness = await circuit.calculateWitness(inputs);
+
+    await circuit.checkConstraints(witness);
+    await circuit.assertOut(witness, {});
+  }, 100000);
 });
