@@ -6,7 +6,27 @@
     "url": "https://github.com/ashwhitehat"
   },
   "description": "ZkEmail only for Header",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:invers-technology/zk-email-light-ts.git"
+  },
+  "homepage": "https://github.com/invers-technology/zk-email-light-ts",
+  "keywords": [
+    "zk-email",
+    "dkim",
+    "dkim-signature",
+    "typescript",
+    "circom"
+  ],
+  "license": "Apache-2.0",
   "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "*.js",
+    "*.d.ts",
+    "*.map"
+  ],
+  "private": false,
   "scripts": {
     "lint": "eslint src",
     "fmt": "prettier --write .",
@@ -14,8 +34,6 @@
     "build": "tsc",
     "test": "jest"
   },
-  "keywords": [],
-  "license": "ISC",
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.2",
@@ -25,5 +43,8 @@
     "ts-jest": "^29.3.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.31.0"
+  },
+  "dependencies": {
+    "dkim-verifier": "^0.0.7"
   }
 }

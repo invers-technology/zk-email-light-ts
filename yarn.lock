@@ -1155,6 +1155,11 @@ diff-sequences@^29.6.3:
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-29.6.3.tgz#4deaf894d11407c51efc8418012f9e70b84ea921"
   integrity sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==
 
+dkim-verifier@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/dkim-verifier/-/dkim-verifier-0.0.7.tgz#845edb21f850699af224145cba2aade4622b3792"
+  integrity sha512-n0LfJYs4rcvmBCXjQ3nWWLMiXzf+nvcPk8CEJ8uB/DlyA6KnEptwKcnx7Wzna4t+RXNjgTOxcrj0xlZ06zPpdA==
+
 ejs@^3.1.10:
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.10.tgz#69ab8358b14e896f80cc39e62087b88500c3ac3b"
