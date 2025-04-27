@@ -8,7 +8,8 @@ import {
 
 describe("DKIM", () => {
   const emailRaw = fs.readFileSync("tests/dummy/example.eml", "utf8");
-  it("should be true", async () => {
+
+  it("should verify dkim signature", async () => {
     const { canonicalizedHeaders, canonicalizedBody, dkim } =
       parseEmailToCanonicalized(emailRaw);
     const isBodyVerified = verifyBody(canonicalizedBody, dkim);

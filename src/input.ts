@@ -6,7 +6,7 @@ const RSA_FIELD_BITS = 121;
 const RSA_FIELD_LENGTH = 17;
 const BIGINT_121_MAX = 2n ** BigInt(RSA_FIELD_BITS) - 1n;
 
-type CircuitInputBigInt = FixedLengthArray<bigint, 17>;
+export type CircuitInputBigInt = FixedLengthArray<bigint, 17>;
 
 export const bigintToCircomInputs = (n: bigint): CircuitInputBigInt => {
   return Array.from({ length: Number(RSA_FIELD_LENGTH) }, (_, i) => {
