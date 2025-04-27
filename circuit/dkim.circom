@@ -5,30 +5,28 @@ include "@zk-email/circuits/lib/sha.circom";
 include "@zk-email/circuits/utils/array.circom";
 include "@zk-email/circuits/utils/bytes.circom";
 
-template Dkim(maxHeadersLength) {
-    assert(maxHeadersLength % 64 == 0);
+// Copy from https://github.com/zkemail/zk-email-verify/blob/main/packages/circuits/email-verifier.circom
 
+template Dkim() {
     // RSA field operations constants
     // Sub field bits
     var N = 121;
     // Number of sub fields
     var K = 17;
 
-    signal input emailHeader[maxHeadersLength];
+    // Header length
+    var L = 640;
+
+    signal input emailHeader[L];
     signal input emailHeaderLength;
     signal input pubkey[K];
     signal input signature[K];
 
-    // Assert `emailHeaderLength` fits in `ceil(log2(maxHeadersLength))`
-    component n2bHeaderLength = Num2Bits(log2Ceil(maxHeadersLength));
-    n2bHeaderLength.in <== emailHeaderLength;
-
-
     // Assert `emailHeader` data after `emailHeaderLength` are zeros
-    AssertZeroPadding(maxHeadersLength)(emailHeader, emailHeaderLength);
+    AssertZeroPadding(L)(emailHeader, emailHeaderLength);
 
     // Calculate SHA256 hash of the `emailHeader` - 506,670 constraints
-    signal sha[256] <== Sha256Bytes(maxHeadersLength)(emailHeader, emailHeaderLength);
+    signal sha[256] <== Sha256Bytes(L)(emailHeader, emailHeaderLength);
     component bitPacker = PackBits(256, 128);
     bitPacker.in <== sha;
     signal output shaHi <== bitPacker.out[0];

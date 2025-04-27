@@ -1,8 +1,28 @@
 import { createHash } from "crypto";
-import { SHA_PADDED_MESSAGE_LENGTH } from "./input";
+import { parseEmailToCanonicalized } from "dkim-verifier";
+import { CircuitInputPaddedMessage, SHA_PADDED_MESSAGE_LENGTH } from "./input";
+
+interface ShaCircuitInputs {
+  paddedIn: CircuitInputPaddedMessage;
+  paddedInLength: number;
+}
 
 export const sha256 = (input: string): string =>
   createHash("sha256").update(input).digest("hex");
+
+export const shaCircuitInputs = (emailRaw: string): ShaCircuitInputs => {
+  const { canonicalizedHeaders } = parseEmailToCanonicalized(emailRaw);
+  const bufferMessage = Buffer.from(canonicalizedHeaders, "ascii");
+  const { paddedInput, paddedInLength } = sha256Pad(
+    bufferMessage,
+    SHA_PADDED_MESSAGE_LENGTH,
+  );
+
+  return {
+    paddedIn: Array.from(paddedInput).map(Number) as CircuitInputPaddedMessage,
+    paddedInLength,
+  };
+};
 
 // Copy from https://github.com/zkemail/zk-email-verify/tree/main/packages/helpers
 

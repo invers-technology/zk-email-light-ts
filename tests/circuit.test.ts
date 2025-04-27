@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { rsaCircuitInputs, shaCircuitInputs } from "../src";
+import { rsaCircuitInputs, shaCircuitInputs, dkimCircuitInputs } from "../src";
 const wasm = require("circom_tester").wasm;
 
 describe("Circuit", () => {
@@ -27,6 +27,15 @@ describe("Circuit", () => {
   it("should verify sha256 with sha circuit", async () => {
     const inputs = shaCircuitInputs(emailRaw);
     const circuit = await getCircuit("sha");
+    const witness = await circuit.calculateWitness(inputs);
+
+    await circuit.checkConstraints(witness);
+    await circuit.assertOut(witness, {});
+  }, 100000);
+
+  it("should verify dkim signature with dkim circuit", async () => {
+    const inputs = await dkimCircuitInputs(emailRaw);
+    const circuit = await getCircuit("dkim");
     const witness = await circuit.calculateWitness(inputs);
 
     await circuit.checkConstraints(witness);

@@ -24,7 +24,8 @@
   "files": [
     "*.js",
     "*.d.ts",
-    "*.map"
+    "*.map",
+    "circuit"
   ],
   "private": false,
   "scripts": {
