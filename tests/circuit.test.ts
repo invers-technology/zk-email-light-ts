@@ -1,11 +1,6 @@
 import fs from "fs";
-import {
-  getDkimPublicKeyN,
-  getSignature,
-  parseEmailToCanonicalized,
-} from "dkim-verifier";
-import { bigintToCircomInputs, sha256, CircuitInputBigInt } from "../src";
 import path from "path";
+import { rsaCircuitInputs } from "../src";
 const wasm = require("circom_tester").wasm;
 
 describe("Circuit", () => {
@@ -19,35 +14,11 @@ describe("Circuit", () => {
       circomOption,
     );
   };
-  let publicKeyInputs: CircuitInputBigInt,
-    signatureInputs: CircuitInputBigInt,
-    bodyHashInputs: CircuitInputBigInt;
-
-  it("should generate inputs for rsa circuit", async () => {
-    const { canonicalizedHeaders, dkim } = parseEmailToCanonicalized(emailRaw);
-    const { n } = await getDkimPublicKeyN(dkim);
-    const signature = getSignature(dkim);
-    const sha = sha256(canonicalizedHeaders);
-
-    publicKeyInputs = bigintToCircomInputs(n);
-    signatureInputs = bigintToCircomInputs(signature);
-    bodyHashInputs = bigintToCircomInputs(sha);
-
-    expect(publicKeyInputs).toBeDefined();
-    expect(publicKeyInputs.length).toBe(17);
-    expect(signatureInputs).toBeDefined();
-    expect(signatureInputs.length).toBe(17);
-    expect(bodyHashInputs).toBeDefined();
-    expect(bodyHashInputs.length).toBe(17);
-  });
 
   it("should verify dkim signature with rsa circuit", async () => {
+    const inputs = await rsaCircuitInputs(emailRaw);
     const circuit = await getCircuit("rsa");
-    const witness = await circuit.calculateWitness({
-      modulus: publicKeyInputs,
-      signature: signatureInputs,
-      message: bodyHashInputs,
-    });
+    const witness = await circuit.calculateWitness(inputs);
 
     await circuit.checkConstraints(witness);
     await circuit.assertOut(witness, {});
